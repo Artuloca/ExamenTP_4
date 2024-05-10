@@ -1,6 +1,6 @@
 @startuml
-App extends JFrame
-{
+
+class App{
   - CONTADOR : String
   - CUENTA_ATRAS : String
   - MAIN_PAGE : String
@@ -17,7 +17,103 @@ App extends JFrame
   - createMainPage() : JPanel
   - createButton(machineType: String, number: int) : JButton
   - createResultPage() : JPanel
+  - createAnalyzeButton() : JButton
+  - createResultPage() : JPanel
+  - executeMachine(machineType: String, number: int) : void
+  - willEnterInfiniteLoop() : boolean
+  - startMachineInNewThread(machineType: String, number: int) : void
+  - executeMachineDirectly(machineType: String, number: int) : void
+  - main(args: String[]) : void
 }
 
+class Button{
+  - machineType : String
+  - number : int
+  - app : App
+  + Button(machineType: String, number: int, app: App)
+  + actionPerformed(e: ActionEvent) : void
+}
+
+class Checker{
+  - app : App
+  + Checker(app: App)
+  + run() : void
+}
+
+class Reverser{
+ +main(args: String[]): void
+}
+
+class MachineAnalyzer{
+  - app : App
+  + MachineAnalyzer(app: App)
+  + run() : void
+}
+
+class Lexer{
++tokenize(machine: Maquina):String
+-getSourceCode(method: Method):String
+}
+
+class Parser{
++parse(tokens: String):String
+}
+
+class Token {
+    -type: TokenType
+    -value: String
+    +Token(type: TokenType, value: String)
+    +getType(): TokenType
+    +getValue(): String
+}
+
+enum TokenType {
+    MACHINE_TYPE, NUMBER, INVALID
+}
+
+interface Maquina {
+    +setNext(maquina: Maquina): void
+    +handle(number: int): boolean
+    +isInfiniteLoop(): boolean
+}
+
+class TextAreaOutputStream extends OutputStream {
+    -textArea: JTextArea
+    +TextAreaOutputStream(textArea: JTextArea)
+    +write(b: int): void
+}
+
+class MaquinaFactory {
+    +getMaquina(type: String, number: int): Maquina
+}
+
+interface Prototype {
+    +clone(): Prototype
+}
+
+class CuentaAtras{
+    -contador: int
+    +CuentaAtras(contador: int)
+    +setNext(maquina: Maquina): void
+    +handle(number: int): boolean
+    +isInfiniteLoop(): boolean
+}
+
+class Contador{
+    -contador: int
+    +Contador(contador: int)
+    +setNext(maquina: Maquina): void
+    +handle(number: int): boolean
+    +isInfiniteLoop(): boolean
+}
+
+class InvalidMachineTypeException {
+}
+
+class NegativeNumberException {
+}
+
+MaquinaFactory ..> InvalidMachineTypeException : <<throw>>
+CuentaAtras ..> NegativeNumberException : <<throw>>
 
 @enduml
