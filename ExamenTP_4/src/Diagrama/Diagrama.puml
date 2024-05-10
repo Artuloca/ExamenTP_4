@@ -1,0 +1,23 @@
+@startuml
+App extends JFrame
+{
+  - CONTADOR : String
+  - CUENTA_ATRAS : String
+  - MAIN_PAGE : String
+  - RESULT_PAGE : String
+  - maquinaThread : Thread
+  - cards : JPanel
+  - cardLayout : CardLayout
+  - button1 : JButton
+  - button2 : JButton
+  - backButton : JButton
+  - resultArea : JTextArea
+  + App()
+  - setupUI() : void
+  - createMainPage() : JPanel
+  - createButton(machineType: String, number: int) : JButton
+  - createResultPage() : JPanel
+}
+
+
+@enduml
